@@ -8,11 +8,16 @@ import tw.core.exception.OutOfGuessCountException;
 import tw.core.generator.AnswerGenerator;
 import tw.core.model.GuessResult;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static tw.core.GameStatus.CONTINUE;
+import static tw.core.GameStatus.SUCCESS;
 
 public class GameTest {
 
@@ -58,6 +63,52 @@ public class GameTest {
         try {
             GuessResult guess = game.guess(Answer.createAnswer("1 2 3 4"));
             assertThat(guess.getResult(), is("4A0B"));
+        }catch (OutOfGuessCountException e){
+            fail("Guess count cant over 6!");
+        }
+    }
+    @Test
+    public void should_get_the_Record_when_call_checkStatus_input_inputAnswer_1_2_3_4() throws Exception {
+        //given
+        Answer inputAnswer = new Answer();
+        List<String> numList = Arrays.asList("1","2","3","4");
+        inputAnswer.setNumList(numList);
+        //when
+        String result = inputAnswer.toString();
+        //then
+        assertThat(result,is("1 2 3 4"));
+
+    }
+    @Test
+    public void should_get_the_success_status_when_checkStatus_input_is_1234() throws Exception {
+        try {
+            GuessResult guess = game.guess(Answer.createAnswer("1 2 3 4"));
+            assertThat(game.checkStatus(), is(SUCCESS));
+        }catch (OutOfGuessCountException e){
+            fail("Guess count cant over 6!");
+        }
+    }
+    @Test
+    public void should_get_the_CONTINUE_status_when_checkStatus_input_1235() throws Exception {
+        try {
+            GuessResult guess = game.guess(Answer.createAnswer("1 2 3 5"));
+            assertThat(game.checkStatus(), is(CONTINUE));
+        }catch (OutOfGuessCountException e){
+            fail("Guess count cant over 6!");
+        }
+    }
+
+    @Test
+    public void should_get_the_Fail_status_when_checkStatus_input_1235() throws Exception {
+        try {
+            GuessResult guess = game.guess(Answer.createAnswer("1 2 3 5"));
+            game.guess(Answer.createAnswer("1 2 3 5"));
+            game.guess(Answer.createAnswer("1 2 3 5"));
+            game.guess(Answer.createAnswer("1 2 3 5"));
+            game.guess(Answer.createAnswer("1 2 3 5"));
+            game.guess(Answer.createAnswer("1 2 3 5"));
+            game.guess(Answer.createAnswer("1 2 3 5"));
+            assertThat(game.checkStatus(), is(CONTINUE));
         }catch (OutOfGuessCountException e){
             fail("Guess count cant over 6!");
         }
