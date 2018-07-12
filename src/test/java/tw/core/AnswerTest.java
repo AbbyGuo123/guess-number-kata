@@ -87,4 +87,16 @@ public class AnswerTest {
         }
     }
 
+    @Test
+    public void should_get_the_Record_when_call_getIndexOfNum_input_inputAnswer_1234() throws Exception {
+        //given
+        Answer inputAnswer = new Answer();
+        List<String> numList = Arrays.asList("1","2","3","4");
+        inputAnswer.setNumList(numList);
+        //when
+        int index = inputAnswer.getIndexOfNum("1");
+        //then
+        assertThat(index,is(0));
+
+    }
 }
