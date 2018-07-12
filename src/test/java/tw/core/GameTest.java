@@ -53,6 +53,15 @@ public class GameTest {
             fail("Guess count cant over 6!");
         }
     }
+    @Test
+    public void should_get_4A0B_status_when_guess_input_is_1234() throws Exception {
+        try {
+            GuessResult guess = game.guess(Answer.createAnswer("1 2 3 4"));
+            assertThat(guess.getResult(), is("4A0B"));
+        }catch (OutOfGuessCountException e){
+            fail("Guess count cant over 6!");
+        }
+    }
 
 
 }
