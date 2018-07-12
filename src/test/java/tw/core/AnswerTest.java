@@ -99,4 +99,17 @@ public class AnswerTest {
         assertThat(index,is(0));
 
     }
+    @Test
+    public void should_get_1_2_3_4_when_call_toString_input_inputAnswer_1_2_3_4() throws Exception {
+        //given
+        Answer inputAnswer = new Answer();
+        List<String> numList = Arrays.asList("1","2","3","4");
+        inputAnswer.setNumList(numList);
+        //when
+
+        String result = inputAnswer.toString();
+
+        assertThat(result,is("1 2 3 4"));
+
+    }
 }
