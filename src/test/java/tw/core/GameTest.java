@@ -114,5 +114,13 @@ public class GameTest {
         }
     }
 
-
+    @Test
+    public void should_get_the_CONTINUE_status_when_guessHistory_input_1235() throws Exception {
+        try {
+            GuessResult guess = game.guess(Answer.createAnswer("1 2 3 4"));
+            assertThat(game.guessHistory().get(0).getResult(), is("4A0B"));
+        }catch (OutOfGuessCountException e){
+            fail("Guess count cant over 6!");
+        }
+    }
 }
